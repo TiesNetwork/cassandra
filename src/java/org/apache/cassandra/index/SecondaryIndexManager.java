@@ -384,7 +384,7 @@ public class SecondaryIndexManager implements IndexRegistry
 
         List<Future<?>> futures = byType.entrySet()
                                         .stream()
-                                        .map((e) -> e.getKey().getIndexBuildTask(baseCfs, e.getValue(), sstables))
+                                        .map((e) -> e.getKey().getIndexBuildTask(indexThreads, baseCfs, e.getValue(), sstables))
                                         .map(CompactionManager.instance::submitIndexBuild)
                                         .collect(Collectors.toList());
 
