@@ -170,7 +170,7 @@ public abstract class AbstractRow extends AbstractCollection<ColumnData> impleme
                         };
                     }
                     sb.append(StreamSupport.stream(complexData.spliterator(), false)
-                                           .map(transform != null ? transform : cell -> "")
+                                           .map(transform != null ? transform : (Function<Cell, String>) cell -> "")
                                            .collect(Collectors.joining(", ", "{", "}")));
                 }
             }
