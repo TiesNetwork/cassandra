@@ -33,7 +33,7 @@ import org.apache.cassandra.utils.ByteBufferUtil;
 import com.google.common.annotations.VisibleForTesting;
 
 import com.carrotsearch.hppc.IntObjectMap;
-import com.carrotsearch.hppc.IntObjectOpenHashMap;
+import com.carrotsearch.hppc.IntObjectHashMap;
 
 public class StandardAnalyzer extends AbstractAnalyzer
 {
@@ -48,7 +48,7 @@ public class StandardAnalyzer extends AbstractAnalyzer
         KATAKANA(12),
         HANGUL(13);
 
-        private static final IntObjectMap<TokenType> TOKENS = new IntObjectOpenHashMap<>();
+        private static final IntObjectMap<TokenType> TOKENS = new IntObjectHashMap<>();
 
         static
         {
