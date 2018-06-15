@@ -19,6 +19,7 @@ package org.apache.cassandra.cql3.functions;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import org.apache.cassandra.config.Schema;
@@ -86,7 +87,7 @@ public final class FunctionResolver
         if (!name.hasKeyspace())
         {
             // function name not fully qualified
-            candidates = new ArrayList<>();
+            candidates = new HashSet<>();
             // add 'SYSTEM' (native) candidates
             candidates.addAll(Schema.instance.getFunctions(name.asNativeFunction()));
             // add 'current keyspace' candidates
