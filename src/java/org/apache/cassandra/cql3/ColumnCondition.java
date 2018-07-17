@@ -193,25 +193,6 @@ public class ColumnCondition
         /** Returns true if the operator is satisfied (i.e. "otherValue operator value == true"), false otherwise. */
         protected boolean compareWithOperator(Operator operator, AbstractType<?> type, ByteBuffer value, ByteBuffer otherValue) throws InvalidRequestException
         {
-            if (value == ByteBufferUtil.UNSET_BYTE_BUFFER)
-                throw new InvalidRequestException("Invalid 'unset' value in condition");
-            if (value == null)
-            {
-                switch (operator)
-                {
-                    case EQ:
-                        return otherValue == null;
-                    case NEQ:
-                        return otherValue != null;
-                    default:
-                        throw new InvalidRequestException(String.format("Invalid comparison with null for operator \"%s\"", operator));
-                }
-            }
-            else if (otherValue == null)
-            {
-                // the condition value is not null, so only NEQ can return true
-                return operator == Operator.NEQ;
-            }
             return operator.isSatisfiedBy(type, otherValue, value);
         }
     }

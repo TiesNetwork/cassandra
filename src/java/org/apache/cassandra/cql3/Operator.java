@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.cassandra.db.marshal.*;
+import org.apache.cassandra.exceptions.InvalidRequestException;
 import org.apache.cassandra.utils.ByteBufferUtil;
 
 public enum Operator
@@ -195,6 +196,21 @@ public enum Operator
      */
     public boolean isSatisfiedBy(AbstractType<?> type, ByteBuffer leftOperand, ByteBuffer rightOperand)
     {
+        if (rightOperand == ByteBufferUtil.UNSET_BYTE_BUFFER)
+            throw new InvalidRequestException("Invalid 'unset' value in condition");
+        if (rightOperand == null) {
+            switch (this) {
+            case EQ:
+                return leftOperand == null;
+            case NEQ:
+                return leftOperand != null;
+            default:
+                throw new InvalidRequestException(String.format("Invalid comparison with null for operator \"%s\"", this));
+            }
+        } else if (leftOperand == null) {
+            // the condition value is not null, so only NEQ can return true
+            return this == Operator.NEQ;
+        }
         switch (this)
         {
             case EQ:
